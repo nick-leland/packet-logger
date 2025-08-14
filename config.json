@@ -1,0 +1,24 @@
+{
+  "enabled": false,
+  "autoStart": false,
+  "logToFile": true,
+  "logToConsole": false,
+  "maxFileSize": 10485760,
+  "showOpcodeNames": true,
+  "useBlacklist": true,
+  "usePacketDescriptions": true,
+  "filters": {
+    "includeOpcode": [],
+    "excludeOpcode": [],
+    "minPacketSize": 0,
+    "maxPacketSize": 0
+  },
+  "output": {
+    "includeTimestamp": true,
+    "includeDirection": true,
+    "includeOpcode": true,
+    "includeSize": true,
+    "includeHexData": true,
+    "includeParsedData": false
+  }
+}

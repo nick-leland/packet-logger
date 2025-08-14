@@ -1,0 +1,11 @@
+{
+    "name": "Packet Logger",
+    "version": "1.0.0",
+    "description": "Comprehensive network packet logger that captures all packets sent to/from the server",
+    "author": "Starscape Toolbox",
+    "category": "Debugging",
+    "website": "",
+    "dependencies": {
+        "tera-toolbox": ">=2.0.0"
+    }
+}

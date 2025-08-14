@@ -1,0 +1,70 @@
+{
+  "description": "Custom packet field descriptions for readable output",
+  "packets": {
+    "S_SPAWN_NPC": {
+      "description": "NPC spawned",
+      "fields": ["gameId", "loc", "aggressive"],
+      "format": "NPC {gameId} at {loc} (aggressive: {aggressive})"
+    },
+    "S_DESPAWN_NPC": {
+      "description": "NPC despawned",
+      "fields": ["gameId"],
+      "format": "NPC {gameId} has despawned"
+    },
+    "S_SPAWN_USER": {
+      "description": "Player spawned",
+      "fields": ["gameId", "name", "loc", "level"],
+      "format": "Player {name} (ID: {gameId}) at {loc} (Level: {level})"
+    },
+    "S_DESPAWN_USER": {
+      "description": "Player despawned",
+      "fields": ["gameId"],
+      "format": "Player {gameId} has despawned"
+    },
+    "S_CHAT": {
+      "description": "Chat message",
+      "fields": ["name", "message", "channel"],
+      "format": "[{channel}] {name}: {message}"
+    },
+    "C_PLAYER_LOCATION": {
+      "description": "Player movement",
+      "fields": ["loc", "type"],
+      "format": "Movement {type} to {loc}"
+    },
+    "S_ABNORMALITY_BEGIN": {
+      "description": "Buff/debuff applied",
+      "fields": ["target", "id", "duration"],
+      "format": "Effect {id} on {target} for {duration}ms"
+    },
+    "S_ABNORMALITY_REFRESH": {
+      "description": "Buff/debuff refreshed",
+      "fields": ["target", "id", "duration"],
+      "format": "Effect {id} on {target} refreshed for {duration}ms"
+    },
+    "S_ABNORMALITY_END": {
+      "description": "Buff/debuff concluded",
+      "fields": ["target", "id"],
+      "format": "Effect {id} on {target} has ended"
+    },
+    "S_ACTION_STAGE": {
+      "description": "Combat action",
+      "fields": ["gameId", "skill", "stage", "id"],
+      "format": "Action {skill} stage {stage} by {gameId} | ({id})"
+    },
+    "S_ACTION_END": {
+      "description": "combat action ended",
+      "fields": ["gameId", "skill", "type", "id"],
+      "format": "Action {skill} by {gameId} has ended ({type}) | ({id})"
+    },
+    "S_LOAD_TOPO": {
+      "description": "Zone change",
+      "fields": ["zone", "loc"],
+      "format": "Zone change to {zone} at {loc}"
+    },
+    "S_LOGIN": {
+      "description": "Player login",
+      "fields": ["name", "gameId", "level", "zone"],
+      "format": "Login: {name} (ID: {gameId}) Level {level} in zone {zone}"
+    }
+  }
+}

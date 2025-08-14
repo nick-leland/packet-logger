@@ -1,0 +1,18 @@
+{
+  "description": "Packets to ignore by default - high frequency, low value packets",
+  "packets": [
+    "S_RESPONSE_GAMESTAT_PONG",
+    "S_SOCIAL",
+    "C_PLAYER_LOCATION",
+    "S_NPC_LOCATION",
+    "S_USER_LOCATION",
+    "S_CREATURE_ROTATE",
+    "C_REQUEST_GAMESTAT_PING",
+    "S_F2P_PremiumUser_Permission",
+    "S_UDPATE_EVENT_SYSTEM",
+    "S_UPDATE_ACHIEVEMENT_PROGRESS",
+    "CU_TRY_CHANGE_RANDOM_OPTION",
+    "CU_NEEDS_REMAP_B4",
+    "S_UPDATE_EVENT_SYSTEM"
+  ]
+}
