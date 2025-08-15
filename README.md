@@ -1,6 +1,6 @@
 # Packet Logger
 
-A comprehensive network packet logger for Starscape Toolbox that captures ALL network packets sent to and from the server.
+A comprehensive network packet logger for Tera Toolbox that captures ALL network packets sent to and from the server.
 
 ## Features
 
@@ -153,3 +153,7 @@ This module captures ALL packets, which can generate large log files quickly. Th
 - If opcode names aren't showing, check that the protocol map file exists for your game version
 - If you're missing important packets, check the blacklist and remove unwanted filters
 - If packet parsing isn't working, check the packet-descriptions.json file format
+
+## Tested Versions
+
+- Currently all testing has been performed on Starscape, Tera V100.
