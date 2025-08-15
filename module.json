@@ -1,0 +1,10 @@
+{
+    "disableAutoUpdate": true,
+    "name": "Packet Logger",
+    "author": "nick-leland",
+    "description": "A mod to allow for Packet Logging for R&D purposes.",
+    "options": {
+        "niceName": "Packet Logger",
+        "guiName": "Packet Logger"
+    }
+}
