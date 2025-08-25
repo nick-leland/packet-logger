@@ -11,6 +11,7 @@ module.exports = function PacketLogger(mod) {
     let blacklist = [];
     let packetDescriptions = {};
     let packetDefinitions = {};
+    let debugMode = false;
     
     // Load packet definitions
     function loadPacketDefinitions() {
@@ -99,7 +100,9 @@ module.exports = function PacketLogger(mod) {
             'bool': 1,
             'vec3': 12, // 3 floats
             'angle': 4, // float
-            'ref': 4
+            'ref': 4,
+            'skillid': 4, // skill ID is typically 4 bytes
+            'skillid32': 4 // skill ID is typically 4 bytes
         };
         return sizes[type] || 4; // default to 4 bytes
     }
@@ -133,6 +136,13 @@ module.exports = function PacketLogger(mod) {
             const parsedData = {};
             let currentOffset = 0;
             
+            // Special debugging for S_ACTION_STAGE
+            const isActionStage = opcodeName === 'S_ACTION_STAGE';
+            if (isActionStage && debugMode) {
+                mod.log(`[DEBUG] S_ACTION_STAGE packet size: ${data.length} bytes`);
+                mod.log(`[DEBUG] S_ACTION_STAGE hex data: ${data.toString('hex')}`);
+            }
+            
             for (const field of fields) {
                 if (currentOffset >= data.length) break;
                 
@@ -140,10 +150,18 @@ module.exports = function PacketLogger(mod) {
                     const value = readFieldValue(data, currentOffset, field);
                     if (value !== undefined) {
                         parsedData[field.name] = value;
+                        
+                        // Debug output for S_ACTION_STAGE
+                        if (isActionStage && debugMode) {
+                            mod.log(`[DEBUG] Field ${field.name} (${field.type}) at offset ${currentOffset}: ${value}`);
+                        }
                     }
                     currentOffset += field.size;
                 } catch (error) {
                     // Skip this field if we can't read it
+                    if (isActionStage && debugMode) {
+                        mod.log(`[DEBUG] Error reading field ${field.name}: ${error.message}`);
+                    }
                     currentOffset += field.size;
                 }
             }
@@ -201,6 +219,10 @@ module.exports = function PacketLogger(mod) {
                 return undefined;
             case 'angle':
                 return data.readFloatLE(offset);
+            case 'skillid':
+            case 'skillid32':
+                // Skill IDs are typically 32-bit integers
+                return data.readUInt32LE(offset);
             case 'string':
                 // Read string length first
                 const length = data.readUInt32LE(offset);
@@ -492,6 +514,13 @@ module.exports = function PacketLogger(mod) {
                 const formatted = formatPacketData(parsedData);
                 if (formatted) {
                     parsedInfo = ` | ${formatted}`;
+                } else {
+                    // Fallback: show raw field values for debugging
+                    const opcodeName = translateOpcode(opcode);
+                    if (opcodeName === 'S_ACTION_STAGE' && debugMode) {
+                        const rawFields = Object.entries(parsedData.fields).map(([k, v]) => `${k}:${v}`).join(' ');
+                        parsedInfo = ` | RAW: ${rawFields}`;
+                    }
                 }
             }
         }
@@ -724,8 +753,47 @@ module.exports = function PacketLogger(mod) {
                 }
                 break;
                 
+            case 'debug':
+                if (args.length >= 1) {
+                    const subcmd = args[0];
+                    switch (subcmd) {
+                        case 'on':
+                            debugMode = true;
+                            mod.command.message('Debug mode <font color="#00FF00">enabled</font>');
+                            break;
+                            
+                        case 'off':
+                            debugMode = false;
+                            mod.command.message('Debug mode <font color="#FF0000">disabled</font>');
+                            break;
+                            
+                        case 'status':
+                            const debugStatus = debugMode ? '<font color="#00FF00">enabled</font>' : '<font color="#FF0000">disabled</font>';
+                            mod.command.message(`Debug mode is ${debugStatus}`);
+                            break;
+                            
+                        case 'actionstage':
+                            // Temporarily remove S_ACTION_STAGE from blacklist for testing
+                            const actionStageIndex = blacklist.indexOf('S_ACTION_STAGE');
+                            if (actionStageIndex > -1) {
+                                blacklist.splice(actionStageIndex, 1);
+                                mod.command.message('S_ACTION_STAGE temporarily removed from blacklist for debugging');
+                            } else {
+                                mod.command.message('S_ACTION_STAGE is not in blacklist');
+                            }
+                            break;
+                            
+                        default:
+                            mod.command.message('Usage: /packetlogger debug <on|off|status|actionstage>');
+                            break;
+                    }
+                } else {
+                    mod.command.message('Usage: /packetlogger debug <on|off|status|actionstage>');
+                }
+                break;
+                
             default:
-                mod.command.message('Available commands: start, stop, status, clear, config, filter, blacklist, descriptions, lookup');
+                mod.command.message('Available commands: start, stop, status, clear, config, filter, blacklist, descriptions, lookup, debug');
                 break;
         }
     });

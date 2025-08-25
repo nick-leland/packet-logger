@@ -48,8 +48,8 @@
     },
     "S_ACTION_STAGE": {
       "description": "Combat action",
-      "fields": ["gameId", "skill", "stage", "id"],
-      "format": "Action {skill} stage {stage} by {gameId} | ({id})"
+      "fields": ["gameId", "loc", "w", "templateId", "skill", "stage", "speed", "projectileSpeed", "id", "effectScale", "moving", "dest", "target"],
+      "format": "Action {skill} stage {stage} by {gameId} | Skill:{skill} Stage:{stage} ID:{id} GameID:{gameId}"
     },
     "S_ACTION_END": {
       "description": "combat action ended",
@@ -65,6 +65,17 @@
       "description": "Player login",
       "fields": ["name", "gameId", "level", "zone"],
       "format": "Login: {name} (ID: {gameId}) Level {level} in zone {zone}"
+    },
+    "C_USE_PREMIUM_SLOT": {
+      "description": "Premium Slot Toolbar",
+      "fields": ["set", "slot", "type", "id"],
+      "format": "Premium Slot Toolbar {set} {slot} {type} {id}"
+    },
+    "C_REQUEST_NONDB_ITEM_INFO": {
+      "description": "Non-DB Item Info Request",
+      "fields": ["item", "unk1"],
+      "format": "Non-DB Item Info {item} {unk1} (Has either unk2 or button?)"
     }
+
   }
 }
